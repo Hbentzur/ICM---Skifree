@@ -1,9 +1,10 @@
+var playMode = true;
+
 var skier;
 var monster;
 var crowd = [];
 var tree = [];
 var flags = [];
-var playMode = true;
 
 var Skiertest;
 var flagCollision;
@@ -50,15 +51,6 @@ function draw() {
 
     drawSprites();
 
-    // Skiertest
-    Skiertest.overlap(flagCollision, GetPoint);
-
-    function GetPoint() {
-        fill(255, 0, 0);
-        ellipse(30, 30, 30, 30);
-    }
-
-
     //skier
     if (playMode) {
         skier.show();
@@ -93,7 +85,20 @@ function draw() {
             (flagCollision.position.x) = (flags[i].flagx);
             (flagCollision.position.y) = (flags[i].flagy);
 
-            Skiertest.attractionPoint(20, flags[i].flagx, flags[i].flagy);
+            Skiertest.attractionPoint(3, flags[i].flagx, flags[i].flagy);
+
+            if (flags[i].flagy <= windowHeight / 2) {
+                Skiertest.maxSpeed = -2;
+            } else {
+                Skiertest.maxSpeed = 3;
+            }
+
+            Skiertest.overlap(flagCollision, GetPoint);
+
+            function GetPoint() {
+                fill(255, 0, 0);
+                ellipse(30, 30, 30, 30);
+            }
 
         }
 
@@ -276,7 +281,7 @@ class Flag {
         textStyle(BOLD);
         textFont(myFont);
         fill(255, 0, 0);
-        text("Flag", this.flagx, this.flagy);
+        text("flag", this.flagx, this.flagy);
     }
 
     move() {
